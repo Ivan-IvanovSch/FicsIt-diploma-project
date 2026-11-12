@@ -1,5 +1,7 @@
 using FicsIt.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using FicsIt.Models.Entities;
 
 namespace FicsIt
 {
@@ -10,6 +12,10 @@ namespace FicsIt
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<InitialContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddDefaultIdentity<Account>(options => options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<InitialContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
